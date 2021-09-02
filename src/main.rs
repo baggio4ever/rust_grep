@@ -11,12 +11,12 @@ fn main() {
     println!("args: {:?}",args);
 
     let config = Config::new(&args).unwrap_or_else(|err|{
-        println!("引数の解析で問題アリ：{}",err);
+        println!("引数の解析で問題アリです：{}",err);
         process::exit(1);
     });
 
     if let Err(e) = rust_grep::run(config) {
-        println!("エラーでございます：{}",e);
+        println!("エラーなのよ：{}",e);
         process::exit(1);
     }
 }
