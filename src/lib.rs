@@ -34,3 +34,34 @@ pub fn run(config:Config) -> Result<(),Box<dyn Error>> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "鼻たれ"       ;
+        let contents = "\
+人間五十年
+下天のうちをくらぶれば
+夢幻のごとくなり
+鼻たれ小僧
+夢を忘れるな";
+
+        assert_eq!(
+            vec!["鼻たれ小僧"],
+            search(query,contents)
+        );
+    }
+}
+
+fn search<'a>(query:&str,contents:&'a str)->Vec<&'a str> {
+    let mut ret = Vec::new();
+    for line in contents.lines() {
+        if line.contains(query) {
+            ret.push(line);
+        }
+    }
+    ret
+}
