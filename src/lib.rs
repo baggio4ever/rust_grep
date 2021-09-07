@@ -10,15 +10,24 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String])->Result<Config, &'static str> {
+    pub fn new(mut args: std::env::Args)->Result<Config, &'static str> {
         if args.len()<3 {
             return Err("引数が足りないすよ");
             //panic!("引数が足りないす");
         }
-        let query = args[1].clone();
-        let filename = args[2].clone();
-//        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
-        //let one = String::from("1");
+
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("検索文字列を指定してよ"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("ファイル名を指定してよ"),
+        };
+
         let case_sensitive = match env::var("CASE_INSENSITIVE") {
             Ok(one)=>{
                 if one == "1" {
@@ -32,7 +41,7 @@ impl Config {
             }
         };
 
-        println!("case_:{}",case_sensitive);
+//        println!("case_:{}",case_sensitive);
 
         Ok(Config {
             query,
