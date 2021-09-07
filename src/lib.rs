@@ -41,7 +41,7 @@ impl Config {
             }
         };
 
-//        println!("case_:{}",case_sensitive);
+        println!("case_:{}",case_sensitive);
 
         Ok(Config {
             query,
@@ -77,25 +77,16 @@ pub fn run(config:Config) -> Result<(),Box<dyn Error>> {
 }
 
 fn search<'a>(query:&str,contents:&'a str)->Vec<&'a str> {
-    let mut ret = Vec::new();
-    for line in contents.lines() {
-        if line.contains(query) {
-            ret.push(line);
-        }
-    }
-    ret
+    contents.lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 fn search_case_insensitive<'a>(query:&str,contents:&'a str)->Vec<&'a str> {
     let query = query.to_lowercase();
-    let mut ret = Vec::new();
-
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            ret.push(line);
-        }
-    }
-    ret
+    contents.lines()
+        .filter(|line| line.to_lowercase().contains(&query))
+        .collect()
 }
 
 #[cfg(test)]
